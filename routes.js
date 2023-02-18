@@ -1,7 +1,6 @@
-const http = require("http");
 const fs = require("fs");
 
-const server = http.createServer((req, res) => {
+const requestHandler = (req, res) => {
     const url = req.url;
     const method = req.method;
     let data;
@@ -30,15 +29,15 @@ const server = http.createServer((req, res) => {
 
         req.on("end", () => {
             const parsedBody = Buffer.concat(body).toString();
-            // console.log(parsedBody);
-            const messageBody = parsedBody.split("=")[1];
-            // console.log(messageBody);
-            fs.writeFileSync("message.txt", messageBody);
-        });
 
-        res.setHeader("Location", "/");
-        res.statusCode = 302;
-        res.end();
+            const messageBody = parsedBody.split("=")[1];
+
+            fs.writeFileSync("message.txt", messageBody);
+            res.setHeader("Location", "/");
+            res.statusCode = 302;
+            return res.end();
+        });
     }
-});
-server.listen(4000);
+};
+
+module.exports = requestHandler;
