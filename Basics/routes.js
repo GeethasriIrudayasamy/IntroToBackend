@@ -32,7 +32,7 @@ const requestHandler = (req, res) => {
 
             const messageBody = parsedBody.split("=")[1];
 
-            fs.writeFileSync("message.txt", messageBody);
+            fs.writeFileSync("Basics\\message.txt", messageBody);
             res.setHeader("Location", "/");
             res.statusCode = 302;
             return res.end();
